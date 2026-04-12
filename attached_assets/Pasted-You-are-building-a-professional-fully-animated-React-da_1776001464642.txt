@@ -1,0 +1,50 @@
+You are building a professional, fully animated React dashboard application on industrial networking — specifically MODBUS TCP/IP. Before writing a single line of code, you must read and extract all technical content from the PDF file Modbus_TCP_IP_Implementation.pdf that will be provided in the project. All data displayed in the application — frame structures, function codes, MBAP fields, TCP parameters, architecture descriptions, sequence diagrams — must come directly from this official specification document (Modbus-IDA V1.0b).
+Critical file hygiene rule: Keep the project structure minimal and clean. Do NOT create unnecessary files, configuration boilerplate, test files, placeholder files, README drafts, or any file that Replit auto-generates but is not required for the application to run. The final project must contain only the files that are strictly necessary. Do not leave any Replit-specific trace files, cache artifacts, or scaffolding that is not part of the application itself.
+
+WHAT YOU ARE BUILDING
+A single-page React application — a professional industrial network monitoring dashboard focused on MODBUS TCP/IP. The application must feel like a real enterprise-grade SCADA/HMI interface: dark theme, premium typography, smooth animations, and rich interactive data visualizations. It must cover the following content areas, all sourced from the PDF:
+
+The TCP/IP model with its 4 layers and how MODBUS sits within it
+The MODBUS TCP/IP ADU structure — the MBAP header (all 7 bytes decoded) and the PDU
+The Client/Server communication model with Request, Indication, Response, and Confirmation flows
+All standard Function Codes (FC01 through FC10+) with their object types and access modes
+Live-simulated frame analysis — showing a real REQUÊTE, RÉPONSE, and EXCEPTION frame field by field with hexadecimal values animating in real time
+TCP connection management rules (port 502, persistent connections, Transaction ID, half-open detection)
+TCP/IP stack parameterization: TCP_NODELAY, SO_KEEPALIVE, SO_REUSEADDR, SO_RCVBUF with their recommended values and rationale
+The MODBUS component architecture model (Client, Server, TCP Management, Access Control, Configuration Layer)
+The Access Control module — IP whitelist/blacklist logic
+RTU vs TCP/IP comparison with side-by-side frame structures
+
+
+TECHNOLOGY STACK
+Use React with hooks (useState, useEffect, useRef, useCallback). For charts and data visualizations, use Recharts — it must be used for at minimum: a Line chart (live network traffic simulation), a Bar chart (latency per TCP/IP layer), a Donut/Pie chart (Function Code distribution), and a horizontal Bar chart (exception types). Do not use Chart.js or D3 directly. Style everything with Tailwind CSS utility classes only — no separate CSS files, no CSS modules, no styled-components. Use Framer Motion for all animations and transitions. Icons from lucide-react.
+
+DESIGN REQUIREMENTS — NON-NEGOTIABLE
+The visual design must be at the level of a professional agency deliverable. Specifically:
+The color palette must be a deep dark theme: primary background #0A0F1E, card surfaces #111C35, accent teal #00C9A7, secondary blue #3D8BFF, amber #FFB547, coral #FF6B6B, and muted text #64748B. Every color must serve a semantic purpose — teal for success/active, amber for warnings, coral for errors/exceptions, blue for informational elements.
+Typography must use font weight contrast aggressively: section titles at 700–800 weight, body at 400, metric labels at 500. Use font-mono (Jetbrains Mono or Fira Code via Google Fonts) for all hexadecimal values and code-like content.
+Every section must have entrance animations using Framer Motion: cards slide in from below with staggered delays, metric counters animate from 0 to their value on mount, chart lines draw themselves progressively, frame bytes appear one by one with a typewriter effect when a frame is "captured."
+The layout must use a proper dashboard grid: a fixed left sidebar for navigation, a top KPI bar with 4 animated metric cards (requests/min, average latency, success rate, connected devices), and a main content area that renders the active section.
+
+SECTIONS AND THEIR SPECIFIC CONTENT
+Section 1 — Réseau & Architecture: Render the 4 TCP/IP layers as stacked full-width animated cards. Each layer shows its name (spaced uppercase), protocols, a one-sentence description from the PDF, and a latency badge. When hovered, the card expands to show more detail. Below this, render the MODBUS communication architecture diagram showing User Application → Communication Layer (Client + Server) → TCP Management → TCP/IP Stack, with animated arrows showing data flow direction.
+Section 2 — Analyse de Trame: This is the centerpiece of the application and must be the most visually impressive section. Show three rows of animated frame fields — one for REQUÊTE (blue), one for RÉPONSE (teal), one for EXCEPTION (coral). Each field (Transaction ID, Protocol ID, Length, Unit ID, Function Code, Data, etc.) is rendered as an individual card with the field name above, the hex value in mono font in the center, and the byte count below. The user can click a "Capturer" button that triggers a typewriter animation where each byte value appears sequentially with a cursor blinking effect. Below the frames, show a detailed explanation panel that decodes the currently selected frame field when clicked — this explanation must come verbatim from the PDF.
+Section 3 — Function Codes: Render a premium interactive table with FC01 through FC10+. Each row has a color-coded access badge (READ in teal, WRITE in amber), the hex code in mono font, the function name, and the object type. Clicking a row expands an inline panel showing the exact data format for that function code's request and response frames.
+Section 4 — En-tête MBAP: Show each of the 4 MBAP fields as a large interactive card. Each card has the hex value as a large monospace number at the top, the field name, the byte size, and two rows — CLIENT behavior and SERVER behavior — sourced directly from the specification. Animate the cards with a subtle pulse on the accent border.
+Section 5 — Paramétrage TCP/IP: Four large cards for TCP_NODELAY, SO_KEEPALIVE, SO_REUSEADDR, and SO_RCVBUF. Each card has a pill showing the recommended setting (ON/OFF or a numeric value), an icon, and a detailed explanation from the PDF. Add a visual diagram showing the Keep Alive timer mechanism as an animated timeline.
+Section 6 — Dashboard Live: This section shows the Recharts visualizations. The Line chart shows simulated live MODBUS traffic over the last 12 hours — it must update every 3 seconds with a new data point and animate the line smoothly. The Donut chart shows the distribution of Function Codes used (FC03 dominating at ~42%). The Bar chart shows latency per TCP/IP layer. The horizontal Bar chart shows exception frequency by type. All charts must use the application's color palette, have custom tooltips matching the dark theme, and animated entries.
+Section 7 — RTU vs TCP/IP: A split comparison view showing the RTU frame structure on the left (Slave Address + FC + Data + CRC-16) and the TCP/IP ADU on the right (MBAP + FC + Data), rendered as interactive field blocks. Below this, a styled comparison table covering medium, speed, error control, addressing, access mode, simultaneous transactions, and dedicated port.
+Section 8 — Séquences: Two side-by-side sequence diagrams rendered in SVG or Canvas — the Client sequence (6 steps from User App to Network and back) and the Server sequence (6 steps from Network to User App and back), with animated message arrows that draw themselves when the section enters the viewport. Steps must be numbered and labeled exactly as described in the PDF (Figures 23 and 24).
+
+KPI CARDS — TOP BAR
+Show four animated metric cards that update in real time using setInterval: Requêtes/min (starts at 248, fluctuates ±20), Latence moyenne in ms (fluctuates between 3.8–5.2 ms), Taux de succès as a percentage (fluctuates between 97.5–99.2%), and Appareils connectés (fixed at 7). Each card must have a small sparkline trend indicator using a mini Recharts LineChart with no axes.
+
+LIVE LOG — PERSISTENT BOTTOM BAR
+Show a persistent bottom panel (collapsible) that simulates a live MODBUS exchange log. New log entries appear every 1.8 seconds, scrolling upward. Each entry is color-coded: blue for REQ, teal for RES, coral for ERR. Entries show timestamp, source IP, destination Unit ID, Function Code, and either the register values (for responses) or the exception code (for errors). Use a monospace font for this entire panel.
+
+SIDEBAR NAVIGATION
+A fixed left sidebar (64px collapsed, 220px expanded on hover) with icons for each section. Icons from lucide-react. Active section has a teal left border accent and the icon glows with a subtle teal drop-shadow. Section labels slide in smoothly when the sidebar expands.
+
+FINAL QUALITY STANDARDS
+Every component must be smooth at 60fps. No layout shifts on load. All Framer Motion animations must use viewport: { once: true } to trigger only when entering the viewport. The application must be fully responsive down to 1280px wide minimum. There must be no console errors, no missing keys in lists, no undefined variable accesses. The code must be split into logical components — do not put everything in App.jsx. Suggested component structure: App.jsx, Sidebar.jsx, TopBar.jsx, LiveLog.jsx, sections/TrameAnalysis.jsx, sections/TcpLayers.jsx, sections/FunctionCodes.jsx, sections/MbapHeader.jsx, sections/TcpParams.jsx, sections/LiveDashboard.jsx, sections/RtuVsTcp.jsx, sections/SequenceDiagrams.jsx, and a data/modbus.js file containing all static data extracted from the PDF.
+Do not install any package that is not directly used in the application. The package.json must be clean. Do not create .env files, test files, story files, or any documentation file. The deliverable is a single working React application that runs with npm run dev and looks like it was built by a professional development agency for an industrial automation company.
