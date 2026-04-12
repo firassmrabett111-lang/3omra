@@ -42,7 +42,7 @@ const typeColors: Record<string, string> = {
 };
 
 export default function LiveLog() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [logs, setLogs] = useState<LogEntry[]>(() => Array.from({ length: 8 }, (_, i) => generateLog(i)));
   const nextId = useRef(8);
   const scrollRef = useRef<HTMLDivElement>(null);

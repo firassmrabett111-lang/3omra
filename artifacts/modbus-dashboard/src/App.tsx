@@ -10,9 +10,10 @@ import ParametrageTCP from "@/pages/ParametrageTCP";
 import DashboardLive from "@/pages/DashboardLive";
 import RtuVsTcp from "@/pages/RtuVsTcp";
 import Sequences from "@/pages/Sequences";
+import type { ComponentType } from "react";
 import type { SectionId } from "@/data/modbusData";
 
-const sectionComponents: Record<SectionId, React.ComponentType> = {
+const sectionComponents: Record<SectionId, ComponentType> = {
   reseau: ReseauArchitecture,
   trame: AnalyseTrame,
   codes: FunctionCodes,
@@ -24,7 +25,7 @@ const sectionComponents: Record<SectionId, React.ComponentType> = {
 };
 
 function App() {
-  const [activeSection, setActiveSection] = useState<SectionId>("reseau");
+  const [activeSection, setActiveSection] = useState<SectionId>("trame");
   const ActiveComponent = sectionComponents[activeSection];
 
   return (
